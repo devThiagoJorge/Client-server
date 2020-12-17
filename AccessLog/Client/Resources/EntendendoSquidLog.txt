@@ -1,0 +1,37 @@
+O primeiro campo é o timestamp em que a transmissão foi completada.
+1137924958.838 
+
+Tempo em milisegundos que a solicitação demorou
+182454
+
+O terceiro campo é o cliente que fez a requisição.
+61.153.158.198
+
+O quarto campo é a ação que o proxy tomou. As principais ações são:
+TCP_HIT : A solicitação estava em cache;
+TCP_MISS: A solicitação não estava em cache;
+TCP_DENIED: A requisição foi negada.
+
+TCP_MISS/504
+
+
+O quinto campo é o tamanho, em bytes, da requisição.
+1409
+
+
+O sexto campo é o método usado, que pode ser GET, POST, PUT, etc.
+GET
+
+O sétimo campo é a URL solicitada.
+http://218.75.96.254/cgi-bin/7285/ipnew.cgi
+
+
+
+O oitavo campo contém o nome do cliente. Por padrão ela vai mostrar “-”, a menos que “ident_lookup on” esteja configurado no arquivo /etc/squid3/squid.conf.
+-
+
+O nono campo contém informações que dizem se o proxy é quem está fazendo essa solicitação diretamente, ou se essa requisição veio de outro proxy. Pode também conter o ip de destino da requisição.
+NONE/-
+
+O último campo diz o tipo de arquivo baixado (txt, html, imagem, etc).
+text/html

@@ -1,5 +1,6 @@
 ﻿using Client.Classes;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -10,9 +11,10 @@ namespace Client
     {
         static void Main(string[] args)
         {
+            
+            Console.WriteLine("- Client -");
+            //StartClient();
             //ReadAccessLog(ApplicationConstants.PathLog);
-            Console.WriteLine("- Cliente -");
-            StartClient();
         }
 
         public static void ReadAccessLog(string path)
@@ -28,42 +30,30 @@ namespace Client
         }
         public static void StartClient()
         {
-            // Data buffer for incoming data.  
             byte[] bytes = new byte[1024];
 
-            // Connect to a remote device.  
             try
             {
-                // Establish the remote endpoint for the socket.  
-                // This example uses port 11000 on the local computer.  
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-
-                // Create a TCP/IP  socket.  
                 Socket sender = new Socket(ipAddress.AddressFamily,
                     SocketType.Stream, ProtocolType.Tcp);
 
-                // Connect the socket to the remote endpoint. Catch any errors.  
                 try
                 {
                     sender.Connect(remoteEP);
-
                     Console.WriteLine("Socket connected to {0}",
                         sender.RemoteEndPoint.ToString());
 
-                    // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.ASCII.GetBytes("This is a test<EOF>");
+                    byte[] msg = Encoding.ASCII.GetBytes("Pega ai server<EOF>");
 
-                    // Send the data through the socket.  
                     int bytesSent = sender.Send(msg);
 
-                    // Receive the response from the remote device.  
                     int bytesRec = sender.Receive(bytes);
                     Console.WriteLine("Echoed test = {0}",
                         Encoding.ASCII.GetString(bytes, 0, bytesRec));
 
-                    // Release the socket.  
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
 
@@ -87,6 +77,5 @@ namespace Client
                 Console.WriteLine(e.ToString());
             }
         }
-
     }
 }
