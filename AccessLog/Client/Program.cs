@@ -1,6 +1,7 @@
 ﻿using Client.Classes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -14,19 +15,20 @@ namespace Client
             
             Console.WriteLine("- Client -");
             //StartClient();
-            //ReadAccessLog(ApplicationConstants.PathLog);
+            ReadAccessLog(ApplicationConstants.PathLog);
         }
 
         public static void ReadAccessLog(string path)
         {
-            string[] lines = System.IO.File.ReadAllLines(path);
+            string[] readLog = System.IO.File.ReadAllLines(path);
+            var dataLog = new List<AccessLogData>();
+            string[] dataSplit = { };
 
-            foreach (string line in lines)
+            foreach (string line in readLog)
             {
-                // Use a tab to indent each line of the file.
-                Console.WriteLine("\t" + line);
+                dataSplit = line.Split(' ')
+                    .Where(x => !string.IsNullOrEmpty(x)).ToArray();
             }
-
         }
         public static void StartClient()
         {

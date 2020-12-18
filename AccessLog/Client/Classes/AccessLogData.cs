@@ -2,15 +2,30 @@
 {
     public class AccessLogData
     {
-        public string TimeStampTransmissionFinish { get; set; }
-        public long TimeInMillisecondsRequestFinish { get; set; }
-        public string ClientRequest { get; set; }
-        public string ActionProxy { get; set; }
-        public int RequestSizeInBytes { get; set; }
-        public string HttpMethodResponse { get; set; }
-        public string UrlRequest { get; set; }
-        public string ClientName { get; set; }
+        public AccessLogData(string time, long durationInMilliseconds, string clientRequest, string actionProxy, int requestSizeInBytes, string requestMethod, string urlRequest, string clientName, string proxyRequest, string fileDownload)
+        {
+            Time = time;
+            DurationInMilliseconds = durationInMilliseconds;
+            ClientRequest = clientRequest;
+            ActionProxy = actionProxy;
+            RequestSizeInBytes = requestSizeInBytes;
+            RequestMethod = requestMethod;
+            UrlRequest = urlRequest;
+            ClientName = clientName;
+            ProxyRequest = proxyRequest;
+            FileDownload = fileDownload;
+        }
 
+        public string Time { get; private set; }
+        public long DurationInMilliseconds{ get; private set; }
+        public string ClientRequest { get; private set; }
+        public string ActionProxy { get; private set; }
+        public int RequestSizeInBytes { get; private set; }
+        public string RequestMethod { get; private set; }
+        public string UrlRequest { get; private set; }
+        public string ClientName { get; private set; }
+        public string ProxyRequest { get; private set; }
+        public string FileDownload { get; private set; }
 
     }
 }
