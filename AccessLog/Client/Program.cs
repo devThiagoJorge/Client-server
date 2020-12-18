@@ -28,8 +28,22 @@ namespace Client
             {
                 dataSplit = line.Split(' ')
                     .Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                dataLog.Add(new AccessLogData(
+                    dataSplit[0], 
+                    long.Parse(dataSplit[1]),
+                    dataSplit[2],
+                    dataSplit[3],
+                    int.Parse(dataSplit[4]),
+                    dataSplit[5],
+                    dataSplit[6],
+                    dataSplit[7],
+                    dataSplit[8],
+                    dataSplit[9]
+                    ));
             }
         }
+
         public static void StartClient()
         {
             byte[] bytes = new byte[1024];
