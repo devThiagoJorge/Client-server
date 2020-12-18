@@ -14,23 +14,29 @@ namespace Client
         {
             
             Console.WriteLine("- Client -");
-            //StartClient();
-            ReadAccessLog(ApplicationConstants.PathLog);
+            StartClient();
+            //ReadAccessLogAndStructure(ApplicationConstants.PathLog);
         }
 
-        public static void ReadAccessLog(string path)
+        public static List<AccessLogData> ReadAccessLogAndStructure(string path)
         {
             string[] readLog = System.IO.File.ReadAllLines(path);
-            var dataLog = new List<AccessLogData>();
-            string[] dataSplit = { };
+            
+            var list = StructureAccessLog(readLog);
+            return list;
+        }
 
-            foreach (string line in readLog)
+        public static List<AccessLogData> StructureAccessLog(string[] log)
+        {
+            string[] dataSplit = { };
+            var dataLog = new List<AccessLogData>();
+            foreach (string line in log)
             {
                 dataSplit = line.Split(' ')
                     .Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
                 dataLog.Add(new AccessLogData(
-                    dataSplit[0], 
+                    dataSplit[0],
                     long.Parse(dataSplit[1]),
                     dataSplit[2],
                     dataSplit[3],
@@ -42,6 +48,8 @@ namespace Client
                     dataSplit[9]
                     ));
             }
+
+            return dataLog;
         }
 
         public static void StartClient()
