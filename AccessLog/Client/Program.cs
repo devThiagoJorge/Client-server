@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 
 namespace Client
 {
@@ -12,18 +13,18 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            
             Console.WriteLine("- Client -");
             StartClient();
-            //ReadAccessLogAndStructure(ApplicationConstants.PathLog);
         }
 
-        public static List<AccessLogData> ReadAccessLogAndStructure(string path)
+        public static string ReadAccessLogAndStructure(string path)
         {
             string[] readLog = System.IO.File.ReadAllLines(path);
             
-            var list = StructureAccessLog(readLog);
-            return list;
+            var listLog = StructureAccessLog(readLog);
+
+            string jsonString = JsonSerializer.Serialize(listLog);
+            return jsonString;
         }
 
         public static List<AccessLogData> StructureAccessLog(string[] log)
@@ -54,6 +55,7 @@ namespace Client
 
         public static void StartClient()
         {
+            Console.WriteLine("Starting client...");
             byte[] bytes = new byte[1024];
 
             try
@@ -70,7 +72,9 @@ namespace Client
                     Console.WriteLine("Socket connected to {0}",
                         sender.RemoteEndPoint.ToString());
 
-                    byte[] msg = Encoding.ASCII.GetBytes("Pega ai server<EOF>");
+                    string dataSent = ReadAccessLogAndStructure(ApplicationConstants.PathLog);
+
+                    byte[] msg = Encoding.ASCII.GetBytes($"{dataSent}<EOF>");
 
                     int bytesSent = sender.Send(msg);
 

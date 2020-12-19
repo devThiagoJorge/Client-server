@@ -13,8 +13,6 @@ namespace Server
         {
             Console.WriteLine("Server");
             StartListening();
-
-
         }
 
         public static string data = null;
