@@ -3,12 +3,10 @@ using Server.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.Json;
 
 namespace Server
 {
@@ -21,6 +19,9 @@ namespace Server
             StartListening();
             stopwatch.Stop();
             Console.WriteLine($"\t\n\nTempo passado: {stopwatch.Elapsed}");
+
+            Console.WriteLine("Press any key for the close console...") ;
+            Console.ReadKey();
         }
 
         public static string data = null;
