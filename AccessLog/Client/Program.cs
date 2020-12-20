@@ -14,12 +14,11 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("- Client -");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             StartClient();
             stopwatch.Stop();
-            Console.WriteLine($"\n\nTempo passado: {stopwatch.Elapsed}");
+            Console.WriteLine($"\n\nFinished time: {stopwatch.Elapsed}");
         }
 
         public static string ReadAccessLogAndStructure(string path)
@@ -79,13 +78,12 @@ namespace Client
 
                     string dataSent = ReadAccessLogAndStructure(ApplicationConstants.PathLog);
 
-                    byte[] msg = Encoding.ASCII.GetBytes($"{dataSent}<EOF> \n\nFIM DO JSON");
+                    byte[] msg = Encoding.ASCII.GetBytes($"{dataSent}<EOF>");
 
+                    Console.WriteLine("Sending data...");
                     int bytesSent = sender.Send(msg);
 
                     int bytesRec = sender.Receive(bytes);
-                    Console.WriteLine("Echoed test = {0}",
-                        Encoding.ASCII.GetString(bytes, 0, bytesRec));
 
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();

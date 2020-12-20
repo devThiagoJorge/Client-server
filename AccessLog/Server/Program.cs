@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Server.Classes;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 
 namespace Server
 {
@@ -11,7 +16,6 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Server");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             StartListening();
@@ -37,9 +41,9 @@ namespace Server
                 listener.Bind(localEndPoint);
                 listener.Listen(10);
 
+                    Console.WriteLine("Waiting for a connection...\n\nPlease wait...");  
                 while (true)
                 {
-                    Console.WriteLine("Waiting for a connection...");  
                     Socket handler = listener.Accept();
                     data = null;
 
@@ -53,14 +57,22 @@ namespace Server
                         }
                     }
 
-                    Console.WriteLine("Text received : {0}", data);
+                    Console.WriteLine("Text received:\n {0}", data);
+
+
+                    var dataJson = data.Split("<EOF>")
+                                        .Where(x => x != "<EOF>")
+                                        .FirstOrDefault();
+
+                    var listLog = JsonConvert.DeserializeObject<List<AccessLogData>>(dataJson);
 
                     byte[] msg = Encoding.ASCII.GetBytes(data);
 
                     handler.Send(msg);
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
-                    Console.WriteLine("Finish connection");
+                    Console.WriteLine("Connection terminated");
+                    return;
                 }
 
             }
