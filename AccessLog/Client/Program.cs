@@ -1,6 +1,7 @@
 ﻿using Client.Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -14,7 +15,11 @@ namespace Client
         static void Main(string[] args)
         {
             Console.WriteLine("- Client -");
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             StartClient();
+            stopwatch.Stop();
+            Console.WriteLine($"\n\nTempo passado: {stopwatch.Elapsed}");
         }
 
         public static string ReadAccessLogAndStructure(string path)
@@ -74,7 +79,7 @@ namespace Client
 
                     string dataSent = ReadAccessLogAndStructure(ApplicationConstants.PathLog);
 
-                    byte[] msg = Encoding.ASCII.GetBytes($"{dataSent}<EOF>");
+                    byte[] msg = Encoding.ASCII.GetBytes($"{dataSent}<EOF> \n\nFIM DO JSON");
 
                     int bytesSent = sender.Send(msg);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -8,11 +9,14 @@ namespace Server
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             Console.WriteLine("Server");
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             StartListening();
+            stopwatch.Stop();
+            Console.WriteLine($"\t\n\nTempo passado: {stopwatch.Elapsed}");
         }
 
         public static string data = null;
@@ -56,6 +60,7 @@ namespace Server
                     handler.Send(msg);
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
+                    Console.WriteLine("Finish connection");
                 }
 
             }
