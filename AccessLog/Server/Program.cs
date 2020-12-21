@@ -18,6 +18,9 @@ namespace Server
             stopwatch.Start();
             StartListening();
             stopwatch.Stop();
+
+            var listLog = DeserializeData(data);
+
             Console.WriteLine($"\t\n\nTempo passado: {stopwatch.Elapsed}");
 
             Console.WriteLine("Press any key for the close console...") ;
@@ -60,13 +63,6 @@ namespace Server
 
                     Console.WriteLine("Text received:\n {0}", data);
 
-
-                    var dataJson = data.Split("<EOF>")
-                                        .Where(x => x != "<EOF>")
-                                        .FirstOrDefault();
-
-                    var listLog = JsonConvert.DeserializeObject<List<AccessLogData>>(dataJson);
-
                     byte[] msg = Encoding.ASCII.GetBytes(data);
 
                     handler.Send(msg);
@@ -85,6 +81,17 @@ namespace Server
             Console.WriteLine("\nPress ENTER to continue...");
             Console.Read();
 
+        }
+
+        public static List<AccessLogData> DeserializeData(string dataClient)
+        {
+            var dataJson = dataClient.Split("<EOF>")
+                                        .Where(x => x != "<EOF>")
+                                        .FirstOrDefault();
+
+            var listLog = JsonConvert.DeserializeObject<List<AccessLogData>>(dataJson);
+
+            return listLog;
         }
     }
 }

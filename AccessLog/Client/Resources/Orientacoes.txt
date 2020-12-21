@@ -1,0 +1,38 @@
+Squid - proxy - log
+
+- 2 Aplicacoes console
+
+
+
+- Comunicacao: TCP/UDP
+
+
+
+- Client
+- Ler o access log
+- Estrutura os dados
+- Tranferir os dados
+
+
+
+- Server
+- Receber as informações (36 mil registros)
+- Gravar em banco de dados (36 mil registros)
+- Avisar event bus (Processo finalizado)
+
+
+
+- Processo
+- Apos finalizar processo, enviar email
+- Tempo leitura no client
+- Tempo "parse" do arquivo para objetos
+- Tempo de transferencia
+- Total do processo
+- Total de registros: 36xxxx
+
+
+
+- O que importa ?????
+- Tempo
+- Todos os passos acontecam
+- Decisao de arquitetura / ferramentas
