@@ -19,19 +19,20 @@ namespace Server
             StartListening();
             stopwatch.Stop();
 
-            var listLog = DeserializeData(data);
+            var listLog = DeserializeData(dataReceive);
 
             Console.WriteLine($"\t\n\nTempo passado: {stopwatch.Elapsed}");
 
-            Console.WriteLine("Press any key for the close console...") ;
+            Console.WriteLine("Press any key for the close console...");
             Console.ReadKey();
         }
 
-        public static string data = null;
+        public static string dataReceive = null;
+        //public static string dataJson = null;
 
         public static void StartListening()
         {
-            byte[] bytes = new Byte[1024];
+            byte[] bytes = new Byte[16384];
 
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = ipHostInfo.AddressList[0];
@@ -39,31 +40,34 @@ namespace Server
 
             Socket listener = new Socket(ipAddress.AddressFamily,
                 SocketType.Stream, ProtocolType.Tcp);
-  
+
             try
             {
                 listener.Bind(localEndPoint);
                 listener.Listen(10);
 
-                    Console.WriteLine("Waiting for a connection...\n\nPlease wait...");  
+                Console.WriteLine("Waiting for a connection...\n\nPlease wait...");
                 while (true)
                 {
                     Socket handler = listener.Accept();
-                    data = null;
 
+                    int bytesRec = 0;
+                    StringBuilder dataJson = new StringBuilder();
                     while (true)
                     {
-                        int bytesRec = handler.Receive(bytes);
-                        data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                        if (data.IndexOf("<EOF>") > -1)
+                        bytesRec = handler.Receive(bytes);
+                        dataReceive = null;
+                        dataReceive = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                        dataJson.Append(dataReceive);
+                        if (dataReceive.IndexOf("<EOF>") > -1)
                         {
                             break;
                         }
                     }
 
-                    Console.WriteLine("Text received:\n {0}", data);
-
-                    byte[] msg = Encoding.ASCII.GetBytes(data);
+                    dataReceive = dataJson.ToString();
+                    Console.WriteLine("Text received:\n {0}", dataJson);
+                    byte[] msg = Encoding.ASCII.GetBytes(dataReceive);
 
                     handler.Send(msg);
                     handler.Shutdown(SocketShutdown.Both);
