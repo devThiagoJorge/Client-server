@@ -17,10 +17,9 @@ namespace Server
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             StartListening();
-            stopwatch.Stop();
-
             var listLog = DeserializeData(dataReceive);
-
+            DatabaseOperations.ConnectionDatabase(DatabaseOperations.ConnectionString, listLog);
+            stopwatch.Stop();
             Console.WriteLine($"\t\n\nTempo passado: {stopwatch.Elapsed}");
 
             Console.WriteLine("Press any key for the close console...");
@@ -66,7 +65,7 @@ namespace Server
                     }
 
                     dataReceive = dataJson.ToString();
-                    Console.WriteLine("Text received:\n {0}", dataJson);
+                    //Console.WriteLine("Text received:\n {0}", dataJson);
                     byte[] msg = Encoding.ASCII.GetBytes(dataReceive);
 
                     handler.Send(msg);
