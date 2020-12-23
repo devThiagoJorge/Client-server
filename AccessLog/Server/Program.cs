@@ -24,10 +24,10 @@ namespace Server
 
             Console.WriteLine("Press any key for the close console...");
             Console.ReadKey();
+            
         }
 
         public static string dataReceive = null;
-        //public static string dataJson = null;
 
         public static void StartListening()
         {

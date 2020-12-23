@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceBusIntegration\ServiceBusIntegration.csproj" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

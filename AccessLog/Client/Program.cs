@@ -1,4 +1,5 @@
 ﻿using Client.Classes;
+using ServiceBusIntegration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,24 +8,43 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Client
 {
     class Program
     {
-        static void Main(string[] args)
+        
+        public static Stopwatch TimeRead = new Stopwatch();
+        public static Stopwatch ClientTime = new Stopwatch();
+        public static Stopwatch TimeParse = new Stopwatch();
+        public static Stopwatch TimeSendToServer = new Stopwatch();
+       
+        static async Task Main(string[] args)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            ClientTime.Start();
             StartClient();
-            stopwatch.Stop();
-            Console.WriteLine($"\n\nFinished time: {stopwatch.Elapsed}");
+            ClientTime.Stop();
+            Console.WriteLine($"\n\nFinished time: {ClientTime.Elapsed}");
+
+            //await SendServiceBus($"Reading Access Log: {TimeRead.Elapsed}");
+            //await SendServiceBus($"Parse time: {TimeParse.Elapsed}");
+            //await SendServiceBus($"Time send to server: {TimeSendToServer.Elapsed}");
+            //await SendServiceBus($"Time to finish: {ClientTime.Elapsed}");
+            //await SendServiceBus($"Total: 36.999");
+
+            await ServiceBus.ReceiveMessagesAsync();
         }
 
+        public static async Task SendServiceBus(string message)
+        {
+            await ServiceBus.SendMessageAsync(message);
+        }
         public static string ReadAccessLogAndStructure(string path)
         {
+            TimeRead.Start();
             string[] readLog = System.IO.File.ReadAllLines(path);
-            
+            TimeRead.Stop();
             var listLog = StructureAccessLog(readLog);
 
             string jsonString = JsonSerializer.Serialize(listLog);
@@ -33,6 +53,7 @@ namespace Client
 
         public static List<AccessLogData> StructureAccessLog(string[] log)
         {
+            TimeParse.Start();
             string[] dataSplit = { };
             var dataLog = new List<AccessLogData>();
             foreach (string line in log)
@@ -53,7 +74,7 @@ namespace Client
                     dataSplit[9]
                     ));
             }
-
+            TimeParse.Stop();
             return dataLog;
         }
 
@@ -78,6 +99,8 @@ namespace Client
 
                     string dataSent = ReadAccessLogAndStructure(ApplicationConstants.PathLog);
 
+                    TimeSendToServer.Start();
+
                     byte[] msg = Encoding.ASCII.GetBytes($"{dataSent}<EOF>");
 
                     Console.WriteLine("Sending data...");
@@ -87,6 +110,7 @@ namespace Client
 
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
+                    TimeSendToServer.Stop();
 
                 }
                 catch (ArgumentNullException ane)
