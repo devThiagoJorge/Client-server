@@ -27,13 +27,10 @@ namespace Client
             ClientTime.Stop();
             Console.WriteLine($"\n\nFinished time: {ClientTime.Elapsed}");
 
-            //await SendServiceBus($"Reading Access Log: {TimeRead.Elapsed}");
-            //await SendServiceBus($"Parse time: {TimeParse.Elapsed}");
-            //await SendServiceBus($"Time send to server: {TimeSendToServer.Elapsed}");
-            //await SendServiceBus($"Time to finish: {ClientTime.Elapsed}");
-            //await SendServiceBus($"Total: 36.999");
-
-            await ServiceBus.ReceiveMessagesAsync();
+            await SendServiceBus($"Reading Access Log: {TimeRead.Elapsed}");
+            await SendServiceBus($"Parse time: {TimeParse.Elapsed}");
+            await SendServiceBus($"Time send to server: {TimeSendToServer.Elapsed}");
+            await SendServiceBus($"Time to finish: {ClientTime.Elapsed}");
         }
 
         public static async Task SendServiceBus(string message)

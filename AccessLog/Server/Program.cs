@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Server.Classes;
+using ServiceBusIntegration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,27 +8,34 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Server
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             StartListening();
             var listLog = DeserializeData(dataReceive);
+            await SendServiceBus($"Total: {listLog.Count}");
+            await ServiceBus.ReceiveMessagesAsync();
             DatabaseOperations.ConnectionDatabase(DatabaseOperations.ConnectionString, listLog);
             stopwatch.Stop();
             Console.WriteLine($"\t\n\nTempo passado: {stopwatch.Elapsed}");
 
             Console.WriteLine("Press any key for the close console...");
             Console.ReadKey();
-            
         }
 
         public static string dataReceive = null;
+
+        public static async Task SendServiceBus(string message)
+        {
+            await ServiceBus.SendMessageAsync(message);
+        }
 
         public static void StartListening()
         {

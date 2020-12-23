@@ -7,3 +7,6 @@
 1137922919.346 179740 218.75.96.254 TCP_MISS/504 1409 GET http://218.75.96.254/cgi-bin/7285/ipnew.cgi - NONE/- text/html
 1137922922.526 179859 218.75.96.254 TCP_MISS/504 1409 GET http://218.75.96.254/cgi-bin/7285/ipnew.cgi - NONE/- text/html
 1137923083.342 180512 61.153.158.194 TCP_MISS/504 1409 GET http://218.75.96.254/cgi-bin/7285/ipnew.cgi - NONE/- text/html
+1137923196.316 181271 61.153.158.196 TCP_MISS/504 1413 GET http://www.ippck.com/cgi-bin/pk7285/ipnew.cgi - NONE/- text/html
+1137923281.596  60844 ev1s-66-98-184-27.ev1servers.net TCP_MISS/503 0 CONNECT login.icq.com:443 - DIRECT/64.12.161.185 -
+1137923465.482    294 61.153.158.194 TCP_MISS/200 1923 GET http://www.ippck.com/cgi-bin/pk7285/ipnew.cgi - DIRECT/216.128.67.136 text/html
