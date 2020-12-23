@@ -6,7 +6,7 @@ namespace Server.Classes
 {
     public static class DatabaseOperations
     {
-        public static string ConnectionString = @"Data Source=.,1433;Initial Catalog=AccessLog;User ID=sa;Password=Gator100%147";
+        public static string ConnectionString = @"Data Source=.,1433;Initial Catalog=AccessLog;User ID=sa;Password=YourPassword";
 
         public static void ConnectionDatabase(string connectionString, List<AccessLogData> data)
         {
