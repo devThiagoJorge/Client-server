@@ -20,9 +20,10 @@ namespace Server
             stopwatch.Start();
             StartListening();
             var listLog = DeserializeData(dataReceive);
-            await SendServiceBus($"Total: {listLog.Count}");
-            await ServiceBus.ReceiveMessagesAsync();
+            //await SendServiceBus($"Total: {listLog.Count}");
             DatabaseOperations.ConnectionDatabase(DatabaseOperations.ConnectionString, listLog);
+            // await ReceiveMessages();
+            
             stopwatch.Stop();
             Console.WriteLine($"\t\n\nTempo passado: {stopwatch.Elapsed}");
 
@@ -35,6 +36,11 @@ namespace Server
         public static async Task SendServiceBus(string message)
         {
             await ServiceBus.SendMessageAsync(message);
+        }
+
+        public static async Task ReceiveMessages()
+        {
+            await ServiceBus.ReceiveMessagesAsync();
         }
 
         public static void StartListening()

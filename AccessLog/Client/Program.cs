@@ -14,12 +14,12 @@ namespace Client
 {
     class Program
     {
-        
+
         public static Stopwatch TimeRead = new Stopwatch();
         public static Stopwatch ClientTime = new Stopwatch();
         public static Stopwatch TimeParse = new Stopwatch();
         public static Stopwatch TimeSendToServer = new Stopwatch();
-       
+
         static async Task Main(string[] args)
         {
             ClientTime.Start();
@@ -27,10 +27,10 @@ namespace Client
             ClientTime.Stop();
             Console.WriteLine($"\n\nFinished time: {ClientTime.Elapsed}");
 
-            await SendServiceBus($"Reading Access Log: {TimeRead.Elapsed}");
-            await SendServiceBus($"Parse time: {TimeParse.Elapsed}");
-            await SendServiceBus($"Time send to server: {TimeSendToServer.Elapsed}");
-            await SendServiceBus($"Time to finish: {ClientTime.Elapsed}");
+            //await SendServiceBus($"Reading Access Log: {TimeRead.Elapsed}");
+            //await SendServiceBus($"Parse time: {TimeParse.Elapsed}");
+            //await SendServiceBus($"Time send to server: {TimeSendToServer.Elapsed}");
+            //await SendServiceBus($"Time to finish: {ClientTime.Elapsed}");
         }
 
         public static async Task SendServiceBus(string message)
