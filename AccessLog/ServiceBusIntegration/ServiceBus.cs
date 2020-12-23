@@ -1,6 +1,8 @@
 ﻿using Azure.Messaging.ServiceBus;
 using ServiceBusIntegration.Classes;
 using System;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace ServiceBusIntegration
@@ -59,6 +61,34 @@ namespace ServiceBusIntegration
                 Console.WriteLine("\nStopping the receiver...");
                 await processor.StopProcessingAsync();
                 Console.WriteLine("Stopped receiving messages");
+            }
+        }
+
+        public static void SendEmail(string message)
+        {
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential("thiagojorge.fatec@gmail.com", "gator147");
+            MailMessage mail = new MailMessage();
+            //mail.Sender = new MailAddress("email que vai enviar", "ENVIADOR");
+            mail.From = new MailAddress("thiagojorge.fatec@gmail.com", "ENVIADOR");
+            mail.To.Add(new MailAddress("devthiagojorge@gmail.com", "RECEBEDOR"));
+            //mail.Subject = "Contato";
+            mail.Body = " <br/> Mensagem : " + message;
+            mail.IsBodyHtml = true;
+            mail.Priority = MailPriority.High;
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception erro)
+            {
+                Console.WriteLine(erro);//trata erro
+            }
+            finally
+            {
+                mail = null;
             }
         }
     }
